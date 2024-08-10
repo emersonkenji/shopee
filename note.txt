@@ -1,0 +1,3 @@
+product deleteItem not fix
+product deleteModel not finish
+product updateSizeChart not fix
