@@ -7,12 +7,11 @@ use Faiznurullah\Shopee\config;
 class merchant extends config{
     
     
-    private $config, $partnerid, $partnerkey, $shopee, $access_token;
+    private $config, $partnerid, $shopee;
     
-    public function __construct($partnerid, $partnerkey)
+    public function __construct($partnerid)
     {
-        $this->partnerid = $partnerid;
-        $this->partnerkey = $partnerkey;
+        $this->partnerid = $partnerid; 
         $this->shopee = new shopee();
     }
     
