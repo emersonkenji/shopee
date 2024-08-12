@@ -6,12 +6,10 @@ use Faiznurullah\Shopee\config;
 
 class discount extends config{
 
-    private $config, $partnerid, $partnerkey, $shopee, $access_token;
+    private $shopee;
     
-    public function __construct($partnerid, $partnerkey)
-    {
-        $this->partnerid = $partnerid;
-        $this->partnerkey = $partnerkey;
+    public function __construct()
+    { 
         $this->shopee = new shopee();
     }
 
