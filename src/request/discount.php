@@ -13,58 +13,57 @@ class discount extends config{
         $this->shopee = new shopee();
     }
 
-    public function addDiscount($data = []){
-        $suburl = '/discount/add_discount';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function addDiscount($url, $data = []){
+        $argument = $url.'/discount/add_discount';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function addDiscountItem($data = []){
-        $suburl = '/discount/add_discount_item';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function addDiscountItem($url, $data = []){
+        $argument = $url.'/discount/add_discount_item';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
-    public function deleteDiscount($data = []){
-        $suburl = '/discount/delete_discount';
-        $response = $this->shopee->postMethod($suburl, $data);
+    
+    public function deleteDiscount($url, $data = []){
+        $argument = $url.'/discount/delete_discount';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
-    public function deleteDiscountItem($data = []){
-        $suburl = '/discount/delete_discount_item';
-        $response = $this->shopee->postMethod($suburl, $data);
+    
+    public function deleteDiscountItem($url, $data = []){
+        $argument = $url.'/discount/delete_discount_item';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
-    public function getDiscount($data = []){
-        $suburl = '/discount/get_discount';
-        $response = $this->shopee->postMethod($suburl, $data);
+    
+    public function getDiscount($url, $data = []){
+        $argument = $url.'/discount/get_discount';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
-    public function getDiscountList($data = []){
-        $suburl = '/discount/get_discount_list';
-        $response = $this->shopee->postMethod($suburl, $data);
+    
+    public function getDiscountList($url, $data = []){
+        $argument = $url.'/discount/get_discount_list';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
-    public function updateDiscount($data = []){
-        $suburl = '/discount/update_discount';
-        $response = $this->shopee->postMethod($suburl, $data);
+    
+    public function updateDiscount($url, $data = []){
+        $argument = $url.'/discount/update_discount';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
-    public function updateDiscountItem($data = []){
-        $suburl = '/discount/update_discount_item';
-        $response = $this->shopee->postMethod($suburl, $data);
+    
+    public function updateDiscountItem($url, $data = []){
+        $argument = $url.'/discount/update_discount_item';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
-
-    public function endDiscount($data = []){
-        $suburl = '/discount/end_discount';
-        $response = $this->shopee->postMethod($suburl, $data);
+    
+    public function endDiscount($url, $data = []){
+        $argument = $url.'/discount/end_discount';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 

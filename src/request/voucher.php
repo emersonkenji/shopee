@@ -10,46 +10,49 @@ class voucher extends config
 
     private $shopee;
     public function __construct()
-    { 
+    {
         $this->shopee = new shopee();
     }
 
-    public function addVoucher($data = [])
+    public function addVoucher($url, $data = [])
     {
-        $suburl = '/voucher/add_voucher';
-        $response = $this->shopee->postMethod($suburl, $data);
+        $argument = $url . '/voucher/add_voucher';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function deleteVoucher($data = []){
-        $suburl = '/voucher/delete_voucher';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function deleteVoucher($url, $data = [])
+    {
+        $argument = $url . '/voucher/delete_voucher';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function endVoucher($data = []){
-        $suburl = '/voucher/end_voucher';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function endVoucher($url, $data = [])
+    {
+        $argument = $url . '/voucher/end_voucher';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function updateVoucher($data = []){
-        $suburl = '/voucher/update_voucher';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function updateVoucher($url, $data = [])
+    {
+        $argument = $url . '/voucher/update_voucher';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function getVoucher($data = []){
-        $suburl = '/voucher/get_voucher';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function getVoucher($url, $data = [])
+    {
+        $argument = $url . '/voucher/get_voucher';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function getVoucherList($data = []){
-        $suburl = '/voucher/get_voucher_list';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function getVoucherList($url, $data = [])
+    {
+        $argument = $url . '/voucher/get_voucher_list';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
-
 }

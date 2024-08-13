@@ -4,11 +4,12 @@ namespace Faiznurullah\Shopee;
 
 use Faiznurullah\Shopee\config;
 
-class payment extends config{
+class payment extends config
+{
 
 
     private $config, $partnerid, $partnerkey, $shopee, $access_token;
-    
+
     public function __construct($partnerid, $partnerkey)
     {
         $this->partnerid = $partnerid;
@@ -18,80 +19,89 @@ class payment extends config{
 
 
 
-    public function getEscrowDetail($data = []){
-        $suburl = '/payment/get_escrow_detail';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function getEscrowDetail($url, $data = [])
+    {
+        $argument = $url . '/payment/get_escrow_detail';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function setShopInstallmentStatus($data = []){
-        $suburl = '/payment/set_shop_installment_status ';
-        $response = $this->shopee->getMethodWithPayload($suburl, $data);
-        return $response;
-    } 
-
-    public function getShopInstallmentStatus($data = []){
-        $suburl = '/payment/get_shop_installment_status';
-        $response = $this->shopee->getMethodWithPayload($suburl, $data);
+    public function setShopInstallmentStatus($url, $data = [])
+    {
+        $argument = $url . '/payment/set_shop_installment_status';
+        $response = $this->shopee->getMethodWithPayload($argument, $data);
         return $response;
     }
 
-    public function getPayoutDetail($data = []){
-        $suburl = '/payment/get_payout_detail';
-        $response = $this->shopee->getMethodWithPayload($suburl, $data);
+    public function getShopInstallmentStatus($url, $data = [])
+    {
+        $argument = $url . '/payment/get_shop_installment_status';
+        $response = $this->shopee->getMethodWithPayload($argument, $data);
         return $response;
     }
 
-    public function setItemInstallmentStatus($data = []){
-        $suburl = '/payment/set_item_installment_status';
-        $response = $this->shopee->getMethod($suburl, $data);   
+    public function getPayoutDetail($url, $data = [])
+    {
+        $argument = $url . '/payment/get_payout_detail';
+        $response = $this->shopee->getMethodWithPayload($argument, $data);
         return $response;
     }
 
-    public function getItemInstallmentStatus($data = []){
-        $suburl = '/payment/get_item_installment_status';
-        $response = $this->shopee->getMethodWithPayload($suburl, $data);
+    public function setItemInstallmentStatus($url, $data = [])
+    {
+        $argument = $url . '/payment/set_item_installment_status';
+        $response = $this->shopee->getMethod($argument, $data);
         return $response;
     }
 
-    public function getPaymentMethodList($data = []){
-        $suburl = '/payment/get_payment_method_list';
-        $response = $this->shopee->getMethodWithPayload($suburl, $data);
+    public function getItemInstallmentStatus($url, $data = [])
+    {
+        $argument = $url . '/payment/get_item_installment_status';
+        $response = $this->shopee->getMethodWithPayload($argument, $data);
         return $response;
     }
 
-    public function getWalletTransactionList($data = []){
-        $suburl = '/payment/get_wallet_transaction_list';
-        $response = $this->shopee->getMethodWithPayload($suburl, $data);
+    public function getPaymentMethodList($url, $data = [])
+    {
+        $argument = $url . '/payment/get_payment_method_list';
+        $response = $this->shopee->getMethodWithPayload($argument, $data);
         return $response;
     }
 
-    public function getEscrowList($data = []){
-        $suburl = '/payment/get_escrow_list';
-        $response = $this->shopee->getMethodWithPayload($suburl, $data);
+    public function getWalletTransactionList($url, $data = [])
+    {
+        $argument = $url . '/payment/get_wallet_transaction_list';
+        $response = $this->shopee->getMethodWithPayload($argument, $data);
         return $response;
     }
 
-    public function getPayoutInfo($data = []){
-        $suburl = '/payment/get_payout_info';
-        $response = $this->shopee->getMethodWithPayload($suburl, $data);
+    public function getEscrowList($url, $data = [])
+    {
+        $argument = $url . '/payment/get_escrow_list';
+        $response = $this->shopee->getMethodWithPayload($argument, $data);
         return $response;
     }
 
-    public function getBillingTransactionInfo($authcode, $shop_id, $data = []){
+    public function getPayoutInfo($url, $data = [])
+    {
+        $argument = $url . '/payment/get_payout_info';
+        $response = $this->shopee->getMethodWithPayload($argument, $data);
+        return $response;
+    }
+
+    public function getBillingTransactionInfo($url, $authcode, $shop_id, $data = [])
+    {
         $access_token = parent::getAccesToken($authcode, $shop_id);
         $sign = parent::getSign();
-        $suburl = '/payment/get_billing_transaction_info?access_token='.$access_token.'&partner_id='.$this->partnerid.'&shop_id='.$shop_id.'&sign='.$sign.'&timestamp='.$this->timest;
-        $response = $this->shopee->getMethod($suburl, $data);
+        $argument = $url . '/payment/get_billing_transaction_info?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $response = $this->shopee->getMethod($argument, $data);
         return $response;
     }
 
-    public function getEscrowDetailBatch($data = []){
-        $suburl = '/payment/get_escrow_detail_batch';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function getEscrowDetailBatch($url, $data = [])
+    {
+        $argument = $url . '/payment/get_escrow_detail_batch';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
-    
-
 }
