@@ -6,8 +6,7 @@ use Faiznurullah\Shopee\config\config;
 use Faiznurullah\Shopee\shopee;
 
 
-class payment extends config
-{
+class returnItem extends config{
 
 
     private  $partnerid, $shopee;

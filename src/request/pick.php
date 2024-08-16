@@ -6,9 +6,9 @@ use Faiznurullah\Shopee\config\config;
 use Faiznurullah\Shopee\shopee;
 
 
-class picks extends config
-{
-
+class pick extends config
+{ 
+    
     private $shopee;
 
     public function __construct()

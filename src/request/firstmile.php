@@ -6,7 +6,7 @@ use Faiznurullah\Shopee\config\config;
 use Faiznurullah\Shopee\shopee;
 
 
-class fisrtmile extends config
+class firstmile extends config
 {
 
     private $config, $partnerid, $partnerkey, $shopee, $access_token;

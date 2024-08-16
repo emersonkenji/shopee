@@ -1,13 +1,12 @@
 <?php
 
-namespace Faiznurullah\Shopee\Request;
+namespace Faiznurullah\Shopee\request;
 
 use Faiznurullah\Shopee\Config\config;
 use Faiznurullah\Shopee\shopee;
 
 class voucher extends config
-{
-
+{ 
 
     private $shopee;
     public function __construct()
