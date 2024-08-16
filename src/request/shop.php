@@ -1,9 +1,10 @@
 <?php
 
-namespace Faiznurullah\Shopee\Request;
+namespace Faiznurullah\Shopee\request;
 
-use Faiznurullah\Shopee\Config\config;
+use Faiznurullah\Shopee\config\config;
 use Faiznurullah\Shopee\shopee;
+
 
 class shop extends config
 {
