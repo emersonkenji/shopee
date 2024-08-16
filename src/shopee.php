@@ -5,30 +5,24 @@ namespace Faiznurullah\Shopee;
 use GuzzleHttp\Client;
 
 class shopee{
-    
-    
-    private $url;
+     
     private $client;  
     
     public function __construct()
     { 
-        $this->url = 'https://partner.test-stable.shopeemobile.com/api/v2';
+         
 
         $this->client = new Client();  
 
-        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
-
-            $this->url = 'https://partner.shopeemobile.com/api/v2';
-
-        }
+        
  
     }
 
 
-    public function getMethod($suburl){ 
+    public function getMethod($url){ 
 
         $response = $this->client->get(
-            $this->url . $suburl,
+          $url,
             [
                 'header' => [
                     'Content-Type' => 'application/json',
@@ -40,10 +34,10 @@ class shopee{
        
     }
 
-    public function getMethodWithPayload($suburl, $data){
+    public function getMethodWithPayload($url, $data){
 
         $response = $this->client->get(
-            $this->url.$suburl,
+           $url,
             [
                 'header' => [
                     'Content-Type' => 'application/json',
@@ -56,10 +50,10 @@ class shopee{
     }
 
 
-    public function postMethod($suburl, $data){
+    public function postMethod($url, $data){
         
         $response  = $this->client->post(
-            $this->url . $suburl,
+            $url,
             [
                 'header' => [
                     'Content-Type' => 'application/json',

@@ -1,61 +1,66 @@
 <?php
 
-namespace Faiznurullah\Shopee;
+namespace Faiznurullah\Shopee\Request;
 
 use Faiznurullah\Shopee\Config\config;
+use Faiznurullah\Shopee\shopee;
 
-class shopcategory extends config{
+class shopcategory extends config
+{
 
-    private $config, $partnerid, $partnerkey, $shopee, $access_token;
+    private  $shopee;
 
-    public function __construct($partnerid, $partnerkey)
+    public function __construct()
     {
-        $this->partnerid = $partnerid;
-        $this->partnerkey = $partnerkey;
         $this->shopee = new shopee();
     }
 
-    public function addShopeCategory($data = []){
-        $suburl = '/shop_category/add_shop_category';
-        $response = $this->shopee->postMethod($suburl, $data);
-        return $response; 
-    }
-
-    public function getShopCategoryList($data = []){
-        $suburl = '/shop_category/get_shop_category_list';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function addShopeCategory($url, $data = [])
+    {
+        $argument = $url . '/shop_category/add_shop_category';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function deleteShopCategory($data = []){
-        $suburl = '/shop_category/delete_shop_category';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function getShopCategoryList($url, $data = [])
+    {
+        $argument = $url . '/shop_category/get_shop_category_list';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function updateShopCategory($data = []){
-        $suburl = '/shop_category/update_shop_category';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function deleteShopCategory($url, $data = [])
+    {
+        $argument = $url . '/shop_category/delete_shop_category';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function addItemList($data = []){
-        $suburl = '/shop_category/add_item_list';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function updateShopCategory($url, $data = [])
+    {
+        $argument = $url . '/shop_category/update_shop_category';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function getItemList($data = []){
-        $suburl = '/shop_category/get_item_list';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function addItemList($url, $data = [])
+    {
+        $argument = $url . '/shop_category/add_item_list';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function deleteItemList($data = []){
-        $suburl = '/shop_category/delete_item_list';
-        $response = $this->shopee->postMethod($suburl, $data);
+    public function getItemList($url, $data = [])
+    {
+        $argument = $url . '/shop_category/get_item_list';
+        $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-
+    public function deleteItemList($url, $data = [])
+    {
+        $argument = $url . '/shop_category/delete_item_list';
+        $response = $this->shopee->postMethod($argument, $data);
+        return $response;
+    }
 }

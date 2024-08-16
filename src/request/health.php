@@ -1,8 +1,9 @@
 <?php
 
-namespace Faiznurullah\Shopee;
+namespace Faiznurullah\Shopee\Request;
 
 use Faiznurullah\Shopee\Config\config;
+use Faiznurullah\Shopee\shopee;
 
 class health extends config{
 
@@ -15,27 +16,27 @@ class health extends config{
         $this->shopee = new shopee();
     }
 
-    public function shopPerformance($authcode, $shop_id){
+    public function shopPerformance($url, $authcode, $shop_id){
         $access_token = parent::getAccesToken($authcode, $shop_id); 
         $sign = parent::getSign();
-        $suburl = '/account_health/shop_performance?access_token='.$access_token.'&partner_id='.$this->partnerid.'&shop_id='.$shop_id.'&sign='.$sign.'&timestamp='.$this->timest;
-        $response = $this->shopee->getMethod($suburl);
+        $argument = $url.'/account_health/shop_performance?access_token='.$access_token.'&partner_id='.$this->partnerid.'&shop_id='.$shop_id.'&sign='.$sign.'&timestamp='.$this->timest;
+        $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function shopPenalty($authcode, $shop_id){
+    public function shopPenalty($url, $authcode, $shop_id){
         $access_token = parent::getAccesToken($authcode, $shop_id); 
         $sign = parent::getSign();
-        $suburl = '/account_health/shop_penalty?access_token='.$access_token.'&partner_id='.$this->partnerid.'&shop_id='.$shop_id.'&sign='.$sign.'&timestamp='.$this->timest;
-        $response = $this->shopee->getMethod($suburl);
+        $argument = $url.'/account_health/shop_penalty?access_token='.$access_token.'&partner_id='.$this->partnerid.'&shop_id='.$shop_id.'&sign='.$sign.'&timestamp='.$this->timest;
+        $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function getShopPerformance($authcode, $shop_id){
+    public function getShopPerformance($url, $authcode, $shop_id){
         $access_token = parent::getAccesToken($authcode, $shop_id); 
         $sign = parent::getSign();
-        $suburl = '/account_health/get_shop_performance?access_token='.$access_token.'&partner_id='.$this->partnerid.'&shop_id='.$shop_id.'&sign='.$sign.'&timestamp='.$this->timest;
-        $response = $this->shopee->getMethod($suburl);
+        $argument = $url.'/account_health/get_shop_performance?access_token='.$access_token.'&partner_id='.$this->partnerid.'&shop_id='.$shop_id.'&sign='.$sign.'&timestamp='.$this->timest;
+        $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
