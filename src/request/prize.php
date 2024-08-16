@@ -3,7 +3,7 @@
 namespace Faiznurullah\Shopee;
 
 
-use Faiznurullah\Shopee\config;
+use Faiznurullah\Shopee\Config\config;
 
 class prize extends config{
 

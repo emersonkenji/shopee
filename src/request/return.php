@@ -1,7 +1,7 @@
 <?php
  namespace Faiznurullah\Shopee;
 
- use Faiznurullah\Shopee\config;
+ use Faiznurullah\Shopee\Config\config;
 
  class payment extends config{
 

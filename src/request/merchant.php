@@ -2,7 +2,7 @@
 
 namespace Faiznurullah\Shopee;
 
-use Faiznurullah\Shopee\config;
+use Faiznurullah\Shopee\Config\config;
 
 class merchant extends config{
     

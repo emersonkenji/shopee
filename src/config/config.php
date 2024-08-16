@@ -1,6 +1,6 @@
 <?php 
 
-namespace Faiznurullah\Shopee; 
+namespace Faiznurullah\Shopee\Config; 
 use Faiznurullah\Shopee\shopee;
 
 class config{

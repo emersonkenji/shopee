@@ -2,7 +2,7 @@
 
 namespace Faiznurullah\Shopee;
 
-use Faiznurullah\Shopee\config;
+use Faiznurullah\Shopee\Config\config;
 use Faiznurullah\Shopee\shopee;
 
 class product extends config{
