@@ -8,10 +8,14 @@ use Faiznurullah\Shopee\shopee;
 class voucher extends config
 { 
 
-    private $shopee;
+    private $shopee, $url;
     public function __construct()
     {
         $this->shopee = new shopee();
+        $this->url = 'https://partner.test-stable.shopeemobile.com';
+        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+            $this->url = 'https://partner.shopeemobile.com';
+        }
     }
 
     public function addVoucher($url, $data = [])
@@ -49,10 +53,14 @@ class voucher extends config
         return $response;
     }
 
-    public function getVoucherList($url, $data = [])
+    public function getVoucherList($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/voucher/get_voucher_list';
-        $response = $this->shopee->postMethod($argument, $data);
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/voucher/get_voucher_list', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/voucher/get_voucher_list?access_token='.$accesstoken.'&partner_id='.env('SHOPEE_PATNER_ID').'&shop_id='.$shop_id.'&sign='.$sign.'&timestamp='.$timestamp."&status=all&page_no=1&page_size=100"; 
+        $response = $this->shopee->getMethod($argument);
         return $response;
     }
+
+
 }

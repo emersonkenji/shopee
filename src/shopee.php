@@ -62,8 +62,7 @@ class shopee{
             ]
         );
   
-        return $response->getBody()->getContents(); 
-
+        return $response->getBody()->getContents();  
     }
 
     

@@ -9,12 +9,18 @@ use Faiznurullah\Shopee\shopee;
 class shop extends config
 {
 
-    private  $partnerid,  $shopee;
+    private  $partnerid,  $shopee, $url;
 
     public function __construct($partnerid)
     {
         $this->partnerid = $partnerid; 
         $this->shopee = new shopee();
+
+        $this->url = 'https://partner.test-stable.shopeemobile.com';
+        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+            $this->url = 'https://partner.shopeemobile.com';
+        }
+
     }
 
     public function getShopInfo($url, $authcode, $shop_id)
@@ -27,18 +33,20 @@ class shop extends config
     }
 
 
-    public function getProfile($url, $authcode, $shop_id)
+    public function getProfile($accesstoken, $shop_id)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/shop/get_profile?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop/get_profile', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop/get_profile?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function updateProfile($url, $data = [])
+    public function updateProfile($accesstoken, $shop_id, $data)
     {
-        $argument = $url . '/shop/update_profile';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop/update_profile', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop/update_profile?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }

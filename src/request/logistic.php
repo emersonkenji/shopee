@@ -9,12 +9,17 @@ use Faiznurullah\Shopee\shopee;
 class logistic extends config
 {
 
-    private  $partnerid,  $shopee;
+    private  $partnerid,  $shopee, $url;
 
     public function __construct($partnerid)
     {
         $this->partnerid = $partnerid; 
         $this->shopee = new shopee();
+
+        $this->url = 'https://partner.test-stable.shopeemobile.com';
+        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+            $this->url = 'https://partner.shopeemobile.com';
+        }
     }
 
     public function getShippingParameter($url, $authcode, $shop_id, $order_sn)
@@ -87,11 +92,11 @@ class logistic extends config
         return $response;
     }
 
-    public function getTrackingInfo($url, $authcode, $shop_id, $order_sn, $package_number)
+    public function getTrackingInfo($accesstoken, $shop_id, $order_sn)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/get_tracking_info?access_token=' . $access_token . '&order_sn=' . $order_sn . '&package_number=' . $package_number . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/get_tracking_info', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/get_tracking_info?access_token=' . $accesstoken . '&order_sn=' . $order_sn .  '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -119,11 +124,11 @@ class logistic extends config
         return $response;
     }
 
-    public function getChannelList($url, $authcode, $shop_id)
+    public function getChannelList($accestoken, $shop_id)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/get_channel_list?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/get_channel_list', $timestamp, $accestoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/get_channel_list?access_token=' . $accestoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . time();
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
