@@ -7,21 +7,21 @@ use Faiznurullah\Shopee\shopee;
 
 class order extends config
 {
-
-
+    
+    
     private  $partnerid, $shopee, $url;
     public function __construct($partnerid)
     {
         $this->partnerid = $partnerid; 
         $this->shopee = new shopee();
-
+        
         $this->url = 'https://partner.test-stable.shopeemobile.com';
         if(env('SHOPEE_STATUS_STAGING') == 'Production'){
             $this->url = 'https://partner.shopeemobile.com';
         }
-
+        
     }
-
+    
     public function getOrderList($accesstoken, $shop_id, $time_from = 0, $time_to = 0, $order_status = 'READY_TO_SHIP', $page_size = 20)
     {
         $timestamp = time();
@@ -30,7 +30,7 @@ class order extends config
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
-
+    
     public function getShipmentList($url, $authcode, $shop_id, $cursor = '', $page_size = 20, $order_status = '', $time_from = 0, $time_to = 0)
     {
         $access_token = parent::getAccesToken($authcode, $shop_id);
@@ -39,8 +39,8 @@ class order extends config
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
-
-
+    
+    
     public function getOrderDetail($accestoken, $shop_id, $order_sn_list, $request_order_status_pending = true, $response_optional_fields = 'item_list')
     {
         $paramsn = implode(',', $order_sn_list);
@@ -50,7 +50,7 @@ class order extends config
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
-
+    
     public function splitOrder($url, $authcode, $shop_id, $order_sn, $items)
     {
         $access_token = parent::getAccesToken($authcode, $shop_id);
@@ -59,7 +59,7 @@ class order extends config
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
-
+    
     public function unSplitOrder($url, $authcode, $shop_id, $data = [])
     {
         $access_token = parent::getAccesToken($authcode, $shop_id);
@@ -68,7 +68,7 @@ class order extends config
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
+    
     public function cancelOrder($url, $authcode, $shop_id, $data = [])
     {
         $access_token = parent::getAccesToken($authcode, $shop_id);
@@ -77,7 +77,7 @@ class order extends config
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
+    
     public function handleBuyerCancellation($url, $authcode, $shop_id, $data = [])
     {
         $access_token = parent::getAccesToken($authcode, $shop_id);
@@ -86,7 +86,7 @@ class order extends config
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
+    
     public function setNote($url, $authcode, $shop_id, $data = [])
     {
         $access_token = parent::getAccesToken($authcode, $shop_id);
@@ -95,7 +95,7 @@ class order extends config
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
+    
     public function getPendingBuyerInvoiceOrderList($url, $authcode, $shop_id)
     {
         $access_token = parent::getAccesToken($authcode, $shop_id);
@@ -104,7 +104,7 @@ class order extends config
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
-
+    
     public function uploadInvoiceDoc($url, $authcode, $shop_id, $data = [])
     {
         $access_token = parent::getAccesToken($authcode, $shop_id);
@@ -113,7 +113,7 @@ class order extends config
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
-
+    
     public function downloadInvoiceDoc($accesstoken, $shop_id, $order_sn)
     {
         $timestamp = time();
@@ -122,12 +122,13 @@ class order extends config
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
-
-    public function getBuyerInvoiceInfo($url, $authcode, $shop_id, $data = [])
+    
+    public function getBuyerInvoiceInfo($accesstoken, $shop_id, $order_sn_list)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/order/get_buyer_invoice_info?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $paramsn = implode(',', $order_sn_list);
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/order/get_buyer_invoice_info', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/order/get_buyer_invoice_info?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }

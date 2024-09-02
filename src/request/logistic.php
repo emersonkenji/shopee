@@ -31,11 +31,11 @@ class logistic extends config
         return $response;
     }
 
-    public function getTrackingNumber($url, $authcode, $shop_id, $order_sn, $miles)
+    public function getTrackingNumber($accesstoken, $shop_id, $order_sn, $miles = 'first_mile_tracking_number')
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/get_tracking_number?access_token=' . $access_token . '&order_sn=' . $order_sn . '&package_number=-&partner_id=' . $this->partnerid . '&response_optional_fields=' . $miles . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/get_tracking_number', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/get_tracking_number?access_token=' . $accesstoken . '&order_sn=' . $order_sn . '&package_number=-&partner_id=' . env('SHOPEE_PATNER_ID') . '&response_optional_fields=' . $miles . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -96,7 +96,7 @@ class logistic extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/logistics/get_tracking_info', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/logistics/get_tracking_info?access_token=' . $accesstoken . '&order_sn=' . $order_sn .  '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
+        $argument = $this->url . '/api/v2/logistics/get_tracking_info?access_token=' . $accesstoken . '&order_sn=' . $order_sn .  '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }

@@ -9,12 +9,18 @@ use Faiznurullah\Shopee\shopee;
 class returnItem extends config{
 
 
-    private  $partnerid, $shopee;
+    private  $partnerid, $shopee, $url;
 
     public function __construct($partnerid)
     {
         $this->partnerid = $partnerid; 
         $this->shopee = new shopee();
+
+        $this->url = 'https://partner.test-stable.shopeemobile.com';
+        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+            $this->url = 'https://partner.shopeemobile.com';
+        }
+
     }
 
     public function getReturnDetail($url, $data = [])
@@ -25,10 +31,12 @@ class returnItem extends config{
     }
 
 
-    public function getReturnList($url, $data = [])
+    public function getReturnList($accesstoken, $shop_id, $page_no = 0, $page_size = 100, $create_time_from, $create_time_to, $status = 'ACCEPTED')
     {
-        $argument = $url . '/returns/get_return_list';
-        $response = $this->shopee->getMethodWithPayload($argument, $data);
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/get_return_list', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/returns/get_return_list?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') .  '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp.'&page_size='.$page_size.'&page_no='.$page_no.'&create_time_from='.$create_time_from.'&create_time_to='.$create_time_to."&status=".$status; 
+        $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
