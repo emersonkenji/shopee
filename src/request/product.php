@@ -158,11 +158,11 @@ class product extends config
         return $response;
     }
     
-    public function addModel($url, $authcode, $shop_id, $data = [])
+    public function addModel($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/product/add_model?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/product/add_model', $timestamp, $accesstoken, $shop_id); 
+        $argument = $this->url . '/api/v2/product/add_model?access_token=' . $accesstoken . '&partner_id=' .  env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }

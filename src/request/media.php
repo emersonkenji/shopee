@@ -61,11 +61,13 @@ class media extends config
         return $response;
     }
 
-    public function uploadImage($accesstoken, $shop_id, $data)
+    public function uploadImage($data)
     { 
         $sign = $this->getSign('/api/v2/media_space/upload_image');
         $url = $this->url . '/api/v2/media_space/upload_image?partner_id=' . env('SHOPEE_PATNER_ID') . '&sign=' . $sign . '&timestamp=' . time();
         $response = $this->shopee->postMethodFile($url, $data);
         return $response;
     }
+
+
 }

@@ -22,11 +22,11 @@ class logistic extends config
         }
     }
 
-    public function getShippingParameter($url, $authcode, $shop_id, $order_sn)
+    public function getShippingParameter($accesstoken, $shop_id, $order_sn)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/get_shipping_parameter?access_token=' . $access_token . '&order_sn=' . $order_sn . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/get_shipping_parameter', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/get_shipping_parameter?access_token=' . $accesstoken . '&order_sn=' . $order_sn . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -40,11 +40,11 @@ class logistic extends config
         return $response;
     }
 
-    public function shipOrder($url, $authcode, $shop_id, $data = [])
+    public function shipOrder($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/shiporder?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/ship_order', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/ship_order?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -65,11 +65,11 @@ class logistic extends config
         return $response;
     }
 
-    public function createShippingDocument($url, $authcode, $shop_id, $data = [])
+    public function createShippingDocument($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/create_shipping_document?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/create_shipping_document', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/create_shipping_document?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -83,11 +83,11 @@ class logistic extends config
         return $response;
     }
 
-    public function downloadShippingDocument($url, $authcode, $shop_id, $data = [])
+    public function downloadShippingDocument($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/download_shipping_document?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/download_shipping_document', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/download_shipping_document?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -149,11 +149,11 @@ class logistic extends config
         return $response;
     }
 
-    public function getShippingDocument($url, $authcode, $shop_id, $data = [])
+    public function getShippingDocument($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/get_shipping_document_data_info?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/get_shipping_document_data_info', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/get_shipping_document_data_info?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
