@@ -9,100 +9,104 @@ use Faiznurullah\Shopee\shopee;
 class bundle extends config
 {
 
-    private  $partnerid, $shopee;
-
-    public function __construct($partnerid)
-    {
-        $this->partnerid = $partnerid; 
+    private  $shopee, $url;
+    public function __construct()
+    { 
         $this->shopee = new shopee();
+        
+        $this->url = 'https://partner.test-stable.shopeemobile.com';
+        if(env('SHOPEE_DEVELOPMENT_STATUS')){
+            $this->url = 'https://partner.shopeemobile.com';
+        }
+        
     }
 
-    public function addBundleDeal($url, $authcode, $shop_id, $data = [])
+    public function addBundleDeal($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/add_bundle_deal?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/add_bundle_deal', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/bundle_deal/add_bundle_deal?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function addBundleDealItem($url, $authcode, $shop_id, $data = [])
+    public function addBundleDealItem($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/add_bundle_deal_item?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/add_bundle_deal_item', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/bundle_deal/add_bundle_deal_item?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function getBundleDealList($url, $authcode, $shop_id, $page_no, $page_size, $time_status)
+    public function getBundleDealList($accesstoken, $shop_id, $page_no, $page_size, $time_status)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/get_bundle_deal_list?access_token=' . $access_token . '&page_no=' . $page_no . '&page_size=' . $page_size . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&time_status=' . $time_status . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/get_bundle_deal_list', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/bundle_deal/get_bundle_deal_list?access_token=' . $accesstoken . '&page_no=' . $page_no . '&page_size=' . $page_size . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&time_status=' . $time_status . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function getBundleDeal($url, $authcode, $shop_id, $bundle_deal_id)
+    public function getBundleDeal($accesstoken, $shop_id, $bundle_deal_id)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/get_bundle_deal?access_token=' . $access_token . '&bundle_deal_id=' . $bundle_deal_id . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/get_bundle_deal', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/bundle_deal/get_bundle_deal?access_token=' . $accesstoken . '&bundle_deal_id=' . $bundle_deal_id . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function getBundleDealItem($url, $authcode, $shop_id, $data = [])
+    public function getBundleDealItem($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/get_bundle_deal_item?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/get_bundle_deal_item', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/bundle_deal/get_bundle_deal_item?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethodWithPayload($argument, $data);
         return $response;
     }
 
-    public function updateBundleDeal($url, $authcode, $shop_id, $data = [])
+    public function updateBundleDeal($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/update_bundle_deal?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/update_bundle_deal', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/bundle_deal/update_bundle_deal?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function updateBundleDealItem($url, $authcode, $shop_id, $data = [])
+    public function updateBundleDealItem($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/update_bundle_deal_item?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/update_bundle_deal_item', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/bundle_deal/update_bundle_deal_item?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function endBundleDeal($url, $authcode, $shop_id, $data = [])
+    public function endBundleDeal($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/end_bundle_deal?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/end_bundle_deal', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/bundle_deal/end_bundle_deal?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function deleteBundleDeal($url, $authcode, $shop_id, $data = [])
+    public function deleteBundleDeal($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/delete_bundle_deal?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/delete_bundle_deal', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/bundle_deal/delete_bundle_deal?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function deleteBundleDealItem($url, $authcode, $shop_id, $data = [])
+    public function deleteBundleDealItem($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/bundle_deal/delete_bundle_deal_item?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/bundle_deal/delete_bundle_deal_item', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/bundle_deal/delete_bundle_deal_item?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }

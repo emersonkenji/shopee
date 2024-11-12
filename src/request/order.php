@@ -9,14 +9,13 @@ class order extends config
 {
     
     
-    private  $partnerid, $shopee, $url;
-    public function __construct($partnerid)
-    {
-        $this->partnerid = $partnerid; 
+    private  $shopee, $url;
+    public function __construct()
+    { 
         $this->shopee = new shopee();
         
         $this->url = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+        if(env('SHOPEE_DEVELOPMENT_STATUS')){
             $this->url = 'https://partner.shopeemobile.com';
         }
         
@@ -26,7 +25,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/get_order_list', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/get_order_list?access_token=' . $accesstoken . '&order_status=' . $order_status . '&page_size=' . $page_size . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&time_from=' . $time_from . '&time_range_field=create_time&time_to=' . $time_to . '&timestamp=' . $timestamp;
+        $argument = $this->url . '/api/v2/order/get_order_list?access_token=' . $accesstoken . '&order_status=' . $order_status . '&page_size=' . $page_size . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&time_from=' . $time_from . '&time_range_field=create_time&time_to=' . $time_to . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -35,7 +34,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/get_shipment_list', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/get_shipment_list?access_token=' . $accesstoken . '&cursor=%22' . $cursor . '%22&order_status=' . $order_status . '&page_size=' . $page_size . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&time_from=' . $time_from . '&time_to=' . $time_to . '&timestamp=' . $this->timest;
+        $argument = $this->url . '/api/v2/order/get_shipment_list?access_token=' . $accesstoken . '&cursor=%22' . $cursor . '%22&order_status=' . $order_status . '&page_size=' . $page_size . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&time_from=' . $time_from . '&time_to=' . $time_to . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -55,7 +54,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/split_order', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/split_order?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest . '&order_sn=' . $order_sn . '&items=' . $items;
+        $argument = $this->url . '/api/v2/order/split_order?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp . '&order_sn=' . $order_sn . '&items=' . $items;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -64,7 +63,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/unsplit_order', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/unsplit_order?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $argument = $this->url . '/api/v2/order/unsplit_order?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -73,7 +72,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/cancel_order', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/cancel_order?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $argument = $this->url . '/api/v2/order/cancel_order?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -82,7 +81,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/handle_buyer_cancellation', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/handle_buyer_cancellation?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $argument = $this->url . '/api/v2/order/handle_buyer_cancellation?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -91,7 +90,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/set_note', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/set_note?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $argument = $this->url . '/api/v2/order/set_note?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -100,7 +99,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/set_note', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/get_pending_buyer_invoice_order_list?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $argument = $this->url . '/api/v2/order/get_pending_buyer_invoice_order_list?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -109,7 +108,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/upload_invoice_doc', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/upload_invoice_doc?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $argument = $this->url . '/api/v2/order/upload_invoice_doc?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -118,7 +117,7 @@ class order extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/download_invoice_doc', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/download_invoice_doc?access_token=' . $accesstoken . '&order_sn=' . $order_sn . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . time();
+        $argument = $this->url . '/api/v2/order/download_invoice_doc?access_token=' . $accesstoken . '&order_sn=' . $order_sn . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . time();
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -128,7 +127,7 @@ class order extends config
         $paramsn = implode(',', $order_sn_list);
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/order/get_buyer_invoice_info', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/api/v2/order/get_buyer_invoice_info?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
+        $argument = $this->url . '/api/v2/order/get_buyer_invoice_info?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
