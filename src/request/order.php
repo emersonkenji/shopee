@@ -31,11 +31,11 @@ class order extends config
         return $response;
     }
     
-    public function getShipmentList($url, $authcode, $shop_id, $cursor = '', $page_size = 20, $order_status = '', $time_from = 0, $time_to = 0)
+    public function getShipmentList($accesstoken, $shop_id, $cursor = '', $page_size = 20, $order_status = '', $time_from = 0, $time_to = 0)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/order/get_shipment_list?access_token=' . $access_token . '&cursor=%22' . $cursor . '%22&order_status=' . $order_status . '&page_size=' . $page_size . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&time_from=' . $time_from . '&time_to=' . $time_to . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/order/get_shipment_list', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/order/get_shipment_list?access_token=' . $accesstoken . '&cursor=%22' . $cursor . '%22&order_status=' . $order_status . '&page_size=' . $page_size . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&time_from=' . $time_from . '&time_to=' . $time_to . '&timestamp=' . $this->timest;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -51,65 +51,65 @@ class order extends config
         return $response;
     }
     
-    public function splitOrder($url, $authcode, $shop_id, $order_sn, $items)
+    public function splitOrder($accesstoken, $shop_id, $order_sn, $items)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/order/split_order?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest . '&order_sn=' . $order_sn . '&items=' . $items;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/order/split_order', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/order/split_order?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest . '&order_sn=' . $order_sn . '&items=' . $items;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
     
-    public function unSplitOrder($url, $authcode, $shop_id, $data = [])
+    public function unSplitOrder($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/order/unsplit_order?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/order/unsplit_order', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/order/unsplit_order?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function cancelOrder($url, $authcode, $shop_id, $data = [])
+    public function cancelOrder($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/order/cancel_order?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/order/cancel_order', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/order/cancel_order?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function handleBuyerCancellation($url, $authcode, $shop_id, $data = [])
+    public function handleBuyerCancellation($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/order/handle_buyer_cancellation?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/order/handle_buyer_cancellation', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/order/handle_buyer_cancellation?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function setNote($url, $authcode, $shop_id, $data = [])
+    public function setNote($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/order/set_note?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/order/set_note', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/order/set_note?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function getPendingBuyerInvoiceOrderList($url, $authcode, $shop_id)
+    public function getPendingBuyerInvoiceOrderList($accesstoken, $shop_id)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/order/get_pending_buyer_invoice_order_list?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/order/set_note', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/order/get_pending_buyer_invoice_order_list?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
     
-    public function uploadInvoiceDoc($url, $authcode, $shop_id, $data = [])
+    public function uploadInvoiceDoc($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/order/upload_invoice_doc?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/order/upload_invoice_doc', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/order/upload_invoice_doc?access_token=' . $accesstoken . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }

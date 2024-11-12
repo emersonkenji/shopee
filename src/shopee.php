@@ -9,13 +9,8 @@ class shopee{
     private $client;  
     
     public function __construct()
-    { 
-        
-        
-        $this->client = new Client();  
-        
-        
-        
+    {  
+        $this->client = new Client();   
     }
     
     
@@ -66,25 +61,23 @@ class shopee{
                     }
                     
                     public function postMethodFile($url, $data)
-                    {
-                        // Pastikan data berupa array dan memiliki key 'image_path'
+                    {  
+
                         if (!isset($data['image_path'])) {
                             throw new \Exception('Path gambar tidak ditemukan.');
-                        }
-                    
-                        // Ambil path dan pastikan file ada
+                        } 
+                         
                         $filePath = $data['image_path'];
                         if (!file_exists($filePath)) {
                             throw new \Exception("File tidak ditemukan: " . $filePath);
-                        }
-                    
-                        // Kirim request menggunakan Guzzle dengan multipart
+                        } 
+                        
                         $response = $this->client->post(
                             $url,
                             [
                                 'multipart' => [
                                     [
-                                        'name'     => 'image',  // Pastikan ini sesuai dengan API Shopee
+                                        'name'     => 'image',  
                                         'contents' => fopen($filePath, 'r'),  
                                         'filename' => basename($filePath)
                                     ]

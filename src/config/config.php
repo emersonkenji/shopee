@@ -17,7 +17,7 @@ class config{
         $this->redirectUrl = env('SHOPEE_REDIRECT_URL');
         
         $this->host = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+        if(env('SHOPEE_DEVELOPMENT_STATUS')){
             $this->host = 'https://partner.shopeemobile.com';
         }
         
