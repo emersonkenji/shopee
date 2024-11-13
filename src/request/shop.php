@@ -9,25 +9,23 @@ use Faiznurullah\Shopee\shopee;
 class shop extends config
 {
 
-    private  $partnerid,  $shopee, $url;
-
-    public function __construct($partnerid)
-    {
-        $this->partnerid = $partnerid; 
+    private  $shopee, $url;
+    public function __construct()
+    { 
         $this->shopee = new shopee();
-
+        
         $this->url = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+        if(env('SHOPEE_DEVELOPMENT_STATUS')){
             $this->url = 'https://partner.shopeemobile.com';
         }
-
+        
     }
 
-    public function getShopInfo($url, $authcode, $shop_id)
+    public function getShopInfo($accesstoken, $shop_id)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/shop/get_shop_info?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop/get_shop_info', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop/get_shop_info?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
@@ -51,20 +49,20 @@ class shop extends config
         return $response;
     }
 
-    public function getWarehouseDetail($url, $authcode, $shop_id)
+    public function getWarehouseDetail($accesstoken, $shop_id)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/shop/get_warehouse_detail?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&region=ID&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop/get_warehouse_detail', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop/get_warehouse_detail?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function getShopNotification($url, $authcode, $shop_id, $cursor, $page_size)
+    public function getShopNotification($accesstoken, $shop_id, $cursor, $page_size)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/shop/get_shop_notification?access_token=' . $access_token . '&cursor=' . $cursor . '&page_size=' . $page_size . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop/get_shop_notification', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop/get_shop_notification?access_token=' . $accesstoken . '&cursor=' . $cursor . '&page_size=' . $page_size . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }

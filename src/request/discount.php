@@ -8,63 +8,86 @@ use Faiznurullah\Shopee\shopee;
 
 class discount extends config{
 
-    private $shopee;
-    
+    private  $shopee, $url;
     public function __construct()
     { 
         $this->shopee = new shopee();
+        
+        $this->url = 'https://partner.test-stable.shopeemobile.com';
+        if(env('SHOPEE_DEVELOPMENT_STATUS')){
+            $this->url = 'https://partner.shopeemobile.com';
+        }
+        
     }
 
-    public function addDiscount($url, $data = []){
-        $argument = $url.'/discount/add_discount';
+    public function addDiscount($accesstoken, $shop_id, $data = []){
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/discount/add_discount', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url.'/api/v2/discount/add_discount?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function addDiscountItem($url, $data = []){
-        $argument = $url.'/discount/add_discount_item';
+    public function addDiscountItem($accesstoken, $shop_id, $data = []){
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/discount/add_discount_item', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url.'/api/v2/discount/add_discount_item?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function deleteDiscount($url, $data = []){
-        $argument = $url.'/discount/delete_discount';
+    public function deleteDiscount($accesstoken, $shop_id, $data = []){
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/discount/delete_discount', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url.'/api/v2/discount/delete_discount?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function deleteDiscountItem($url, $data = []){
-        $argument = $url.'/discount/delete_discount_item';
+    public function deleteDiscountItem($accesstoken, $shop_id, $data = []){
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/discount/delete_discount_item', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url.'/api/v2/discount/delete_discount_item?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function getDiscount($url, $data = []){
-        $argument = $url.'/discount/get_discount';
+    public function getDiscount($accesstoken, $shop_id, $data = []){
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/discount/delete_discount_item', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url.'/api/v2/discount/get_discount?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function getDiscountList($url, $data = []){
-        $argument = $url.'/discount/get_discount_list';
+    public function getDiscountList($accesstoken, $shop_id, $data = []){
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/discount/delete_discount_item', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url.'/api/v2/discount/get_discount_list?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function updateDiscount($url, $data = []){
-        $argument = $url.'/discount/update_discount';
+    public function updateDiscount($accesstoken, $shop_id, $data = []){
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/discount/update_discount', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url.'/api/v2/discount/update_discount?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function updateDiscountItem($url, $data = []){
-        $argument = $url.'/discount/update_discount_item';
+    public function updateDiscountItem($accesstoken, $shop_id, $data = []){
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/discount/update_discount_item', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url.'/api/v2/discount/update_discount_item?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
     
-    public function endDiscount($url, $data = []){
-        $argument = $url.'/discount/end_discount';
+    public function endDiscount($accesstoken, $shop_id, $data = []){
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/discount/end_discount', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url.'/api/v2/discount/end_discount?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }

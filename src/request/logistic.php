@@ -9,17 +9,16 @@ use Faiznurullah\Shopee\shopee;
 class logistic extends config
 {
 
-    private  $partnerid,  $shopee, $url;
-
-    public function __construct($partnerid)
-    {
-        $this->partnerid = $partnerid; 
+    private  $shopee, $url;
+    public function __construct()
+    { 
         $this->shopee = new shopee();
-
+        
         $this->url = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+        if(env('SHOPEE_DEVELOPMENT_STATUS')){
             $this->url = 'https://partner.shopeemobile.com';
         }
+        
     }
 
     public function getShippingParameter($accesstoken, $shop_id, $order_sn)
@@ -49,18 +48,20 @@ class logistic extends config
         return $response;
     }
 
-    public function updateShipOrder($url, $authcode, $shop_id, $data = [])
+    public function updateShipOrder($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/update_shipping_order?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/update_shipping_order', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/update_shipping_order?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function getShippingDocumentParameter($url, $data = [])
+    public function getShippingDocumentParameter($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/logistics/get_shipping_document_parameter';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/get_shipping_document_parameter', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/get_shipping_document_parameter?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -74,11 +75,11 @@ class logistic extends config
         return $response;
     }
 
-    public function getShippingDocumentResult($url, $authcode, $shop_id, $data = [])
+    public function getShippingDocumentResult($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/get_shipping_document_result?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/get_shipping_document_result', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/get_shipping_document_result?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -101,25 +102,29 @@ class logistic extends config
         return $response;
     }
 
-    public function getAddressList($url, $authcode, $shop_id)
+    public function getAddressList($accesstoken, $shop_id)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/get_address_list?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/get_address_list', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/get_address_list?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function setAddressConfig($url, $data = [])
+    public function setAddressConfig($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/logistics/set_address_config';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/set_address_config', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/set_address_config?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function deleteAddress($url, $data = [])
+    public function deleteAddress($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/logistics/delete_address';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/delete_address', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/delete_address?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -128,23 +133,25 @@ class logistic extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/logistics/get_channel_list', $timestamp, $accestoken, $shop_id);
-        $argument = $this->url . '/api/v2/logistics/get_channel_list?access_token=' . $accestoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . time();
+        $argument = $this->url . '/api/v2/logistics/get_channel_list?access_token=' . $accestoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function updateChannel($url, $authcode, $shop_id, $data = [])
+    public function updateChannel($accestoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $argument = $url . '/logistics/update_channel?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/update_channel', $timestamp, $accestoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/update_channel?access_token=' . $accestoken . '&partner_id=' .  env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function batchShipOrder($url, $data = [])
+    public function batchShipOrder($accestoken, $shop_id, $data = [])
     {
-        $argument = $url . '/logistics/batch_ship_order';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/update_channel', $timestamp, $accestoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/batch_ship_order?access_token=' . $accestoken . '&partner_id=' .  env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -158,10 +165,13 @@ class logistic extends config
         return $response;
     }
 
-    public function updateTrackingStatus($url, $data = [])
+    public function updateTrackingStatus($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/logistics/update_tracking_status';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/logistics/update_tracking_status', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/logistics/update_tracking_status?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
+    
 }

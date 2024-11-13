@@ -70,7 +70,7 @@ class bundle extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/bundle_deal/update_bundle_deal', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/bundle_deal/update_bundle_deal?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
+        $argument = $this->url . '/api/v2/bundle_deal/update_bundle_deal?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
@@ -106,7 +106,7 @@ class bundle extends config
     {
         $timestamp = time();
         $sign = $this->getGenerateSign('/api/v2/bundle_deal/delete_bundle_deal_item', $timestamp, $accesstoken, $shop_id);
-        $argument = $this->url . '/bundle_deal/delete_bundle_deal_item?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
+        $argument = $this->url . '/api/v2/bundle_deal/delete_bundle_deal_item?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }

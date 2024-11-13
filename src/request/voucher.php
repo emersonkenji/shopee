@@ -8,14 +8,16 @@ use Faiznurullah\Shopee\shopee;
 class voucher extends config
 { 
 
-    private $shopee, $url;
+    private  $shopee, $url;
     public function __construct()
-    {
+    { 
         $this->shopee = new shopee();
+        
         $this->url = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+        if(env('SHOPEE_DEVELOPMENT_STATUS')){
             $this->url = 'https://partner.shopeemobile.com';
         }
+        
     }
 
     public function addVoucher($url, $data = [])

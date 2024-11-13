@@ -9,24 +9,24 @@ use Faiznurullah\Shopee\shopee;
 class returnItem extends config{
 
 
-    private  $partnerid, $shopee, $url;
-
-    public function __construct($partnerid)
-    {
-        $this->partnerid = $partnerid; 
+    private  $shopee, $url;
+    public function __construct()
+    { 
         $this->shopee = new shopee();
-
+        
         $this->url = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_STATUS_STAGING') == 'Production'){
+        if(env('SHOPEE_DEVELOPMENT_STATUS')){
             $this->url = 'https://partner.shopeemobile.com';
         }
-
+        
     }
 
-    public function getReturnDetail($url, $data = [])
+    public function getReturnDetail($accesstoken, $shop_id, $return_sn)
     {
-        $argument = $url . '/returns/get_return_detail';
-        $response = $this->shopee->getMethodWithPayload($argument, $data);
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/get_return_detail', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/returns/get_return_detail?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') .  '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp.'&return_sn='.$return_sn;
+        $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
@@ -40,86 +40,88 @@ class returnItem extends config{
         return $response;
     }
 
-    public function returnConfirm($url, $data = [])
+    public function returnConfirm($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/returns/confirm';
-        $response = $this->shopee->getMethodWithPayload($argument, $data);
-        return $response;
-    }
-
-    public function dispute($url, $data)
-    {
-        $argument = $url . '/returns/dispute';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/confirm', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/returns/confirm?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') .  '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function getAvailableSolutions($url, $authcode, $shop_id, $return_sn)
+    public function dispute($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $suburl = '/returns/get_available_solutions';
-        $argument = $url . $suburl . '?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&return_sn=' . $return_sn . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/dispute', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/returns/dispute?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') .  '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
+        $response = $this->shopee->postMethod($argument, $data);
+        return $response;
+    }
+
+    public function getAvailableSolutions($accesstoken, $shop_id, $return_sn)
+    {
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/get_available_solutions', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/returns/get_available_solutions?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&return_sn=' . $return_sn . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function offer($url, $authcode, $shop_id, $data = [])
+    public function offer($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $suburl = '/returns/offer';
-        $argument = $url . $suburl . '?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/offer', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url .'/api/v2/returns/offer?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function acceptOffer($url, $authcode, $shop_id, $data = [])
-    {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $suburl = '/returns/accept_offer';
-        $argument = $url . $suburl . '?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+    public function acceptOffer($accesstoken, $shop_id, $data = [])
+    { 
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/accept_offer', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url .  '/api/v2/returns/accept_offer?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function convertImage($url, $authcode, $shop_id, $data = [])
+    public function convertImage($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $suburl = '/returns/convert_image';
-        $argument = $url . $suburl . '?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/convert_image', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url .   '/api/v2/returns/convert_image?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function uploadProof($url, $authcode, $shop_id, $data = [])
+    public function uploadProof($accesstoken, $shop_id, $data = [])
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $suburl = '/returns/upload_proof';
-        $argument = $url . $suburl . '?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/upload_proof', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/returns/upload_proof?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' .  $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function queryProof($url, $authcode, $shop_id)
+    public function queryProof($accesstoken, $shop_id, $return_sn)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $suburl = '/returns/query_proof';
-        $argument = $url . $suburl . '?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+       
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/query_proof', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/returns/query_proof?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp.'&return_sn='.$return_sn;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }
 
-    public function getReturnDispute($url, $authcode, $shop_id)
+    public function getReturnDispute($accesstoken, $shop_id, $return_sn)
     {
-        $access_token = parent::getAccesToken($authcode, $shop_id);
-        $sign = parent::getSign();
-        $suburl = '/returns/get_return_dispute_reason';
-        $argument = $url . $suburl . '?access_token=' . $access_token . '&partner_id=' . $this->partnerid . '&return_sn=200203171852695&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $this->timest;
+        
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/returns/get_return_dispute_reason', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/returns/get_return_dispute_reason?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp.'&return_sn='.$return_sn;
         $response = $this->shopee->getMethod($argument);
         return $response;
     }

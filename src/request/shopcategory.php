@@ -9,11 +9,16 @@ use Faiznurullah\Shopee\shopee;
 class shopcategory extends config
 {
 
-    private  $shopee;
-
+    private  $shopee, $url;
     public function __construct()
-    {
+    { 
         $this->shopee = new shopee();
+        
+        $this->url = 'https://partner.test-stable.shopeemobile.com';
+        if(env('SHOPEE_DEVELOPMENT_STATUS')){
+            $this->url = 'https://partner.shopeemobile.com';
+        }
+        
     }
 
     public function addShopeCategory($url, $data = [])
