@@ -23,7 +23,32 @@ SHOPEE_PATNER_KEY=<something>;
 SHOPEE_REDIRECT_URL=<something>;
 SHOPEE_DEVELOPMENT_STATUS=true/false;
 ```
-  
+## Support Methods
+
+| Service Name  | Status |
+| ------------- | --- |
+| Product       | ✅ |
+| MediaSpace       |✅ |
+| Shop      | ✅ |
+| Merchant       | ✅ |
+| Order       | ✅ |
+| Logistics       | ✅ |
+| FirstMile       | ✅ |
+| Payment       | ✅ |
+| Discount      | ✅ |
+| Bundle Deal   | ✅ |
+| Add-On Deal   | ✅ |
+| Voucher       | ✅ |
+| Follow Prize  | ✅ |
+| TopPicks      | ✅ |
+| ShopCategory  | ✅ |
+| Returns       | ✅ |
+| AccountHealth | ✅ |
+| Ads  | ✅ |
+| Public   | ✅ |
+| Push   | ✅ |
+
+
 
 ## Contributing
 For any requests, bugs, or comments, please open an [issue](https://github.com/Faiznurullah/shopee/issues).
