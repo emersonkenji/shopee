@@ -17,12 +17,11 @@ class config{
         $this->redirectUrl = env('SHOPEE_REDIRECT_URL');
         
         $this->host = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_PRODUCTION_STATUS')){
+        if(filter_var(env('SHOPEE_PRODUCTION_STATUS', true), FILTER_VALIDATE_BOOLEAN)){
             $this->host = 'https://partner.shopeemobile.com';
         }
         
-        $this->shopee = new shopee();
-        
+        $this->shopee = new shopee(); 
     }
     
     

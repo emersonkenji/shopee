@@ -12,60 +12,75 @@ class shopcategory extends config
     private  $shopee, $url;
     public function __construct()
     { 
-        $this->shopee = new shopee();
+        $this->timest = time();  
         
         $this->url = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_PRODUCTION_STATUS')){
+        if(filter_var(env('SHOPEE_PRODUCTION_STATUS', true), FILTER_VALIDATE_BOOLEAN)){
             $this->url = 'https://partner.shopeemobile.com';
         }
         
+        $this->shopee = new shopee(); 
     }
 
-    public function addShopeCategory($url, $data = [])
+    public function addShopeCategory($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/shop_category/add_shop_category';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop_category/add_shop_category', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop_category/add_shop_category?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function getShopCategoryList($url, $data = [])
+    public function getShopCategoryList($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/shop_category/get_shop_category_list';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop_category/get_shop_category_list', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop_category/get_shop_category_list?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function deleteShopCategory($url, $data = [])
+    public function deleteShopCategory($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/shop_category/delete_shop_category';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop_category/delete_shop_category', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop_category/delete_shop_category?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function updateShopCategory($url, $data = [])
+    public function updateShopCategory($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/shop_category/update_shop_category';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop_category/update_shop_category', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop_category/update_shop_category?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function addItemList($url, $data = [])
+    public function addItemList($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/shop_category/add_item_list';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop_category/add_item_list', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/shop_category/add_item_list?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
 
-    public function getItemList($url, $data = [])
+    public function getItemList($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/shop_category/get_item_list';
-        $response = $this->shopee->postMethod($argument, $data);
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop_category/get_item_list', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop_category/get_item_list?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
+        $response = $this->shopee->getMethodWithPayload($argument, $data);
         return $response;
     }
 
-    public function deleteItemList($url, $data = [])
+    public function deleteItemList($accesstoken, $shop_id, $data = [])
     {
-        $argument = $url . '/shop_category/delete_item_list';
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/shop_category/delete_item_list', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/shop_category/delete_item_list?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp;
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }

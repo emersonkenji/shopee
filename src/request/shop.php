@@ -12,13 +12,14 @@ class shop extends config
     private  $shopee, $url;
     public function __construct()
     { 
-        $this->shopee = new shopee();
+        $this->timest = time();  
         
         $this->url = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_PRODUCTION_STATUS')){
+        if(filter_var(env('SHOPEE_PRODUCTION_STATUS', true), FILTER_VALIDATE_BOOLEAN)){
             $this->url = 'https://partner.shopeemobile.com';
         }
         
+        $this->shopee = new shopee(); 
     }
 
     public function getShopInfo($accesstoken, $shop_id)
