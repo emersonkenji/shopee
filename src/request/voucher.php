@@ -14,7 +14,7 @@ class voucher extends config
         $this->shopee = new shopee();
         
         $this->url = 'https://partner.test-stable.shopeemobile.com';
-        if(env('SHOPEE_DEVELOPMENT_STATUS')){
+        if(env('SHOPEE_PRODUCTION_STATUS')){
             $this->url = 'https://partner.shopeemobile.com';
         }
         
