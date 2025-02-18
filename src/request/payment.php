@@ -134,4 +134,25 @@ class payment extends config
         $response = $this->shopee->postMethod($argument, $data);
         return $response;
     }
+
+
+    // New Method
+    public function generateIncomeStatement($accesstoken, $shop_id, $start_date, $end_date, $statement_type)
+    {
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/payment/generate_income_statement', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/payment/generate_income_statement?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp.'&release_time_from='.$start_date.'&release_time_to='.$end_date.'&statement_type='.$statement_type;
+        $response = $this->shopee->getMethod($argument);
+        return $response;
+    }
+
+    public function getIncomeStatement($accesstoken, $shop_id, $income_statement_id)
+    {
+        $timestamp = time();
+        $sign = $this->getGenerateSign('/api/v2/payment/get_income_statement', $timestamp, $accesstoken, $shop_id);
+        $argument = $this->url . '/api/v2/payment/get_income_statement?access_token=' . $accesstoken . '&partner_id=' . env('SHOPEE_PATNER_ID') . '&shop_id=' . $shop_id . '&sign=' . $sign . '&timestamp=' . $timestamp.'&income_statement_id='.$income_statement_id;
+        $response = $this->shopee->getMethod($argument);
+        return $response;
+    }
+
 }
